@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import {  useHistory  } from 'react-router-dom'
 
 /*
 NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -10,10 +11,13 @@ you don't find a specific author or title. Every search is limited by search ter
 */
 
 export default function Search() {
+
+    let history = useHistory();
+
     return (
         <div className="search-books">
             <div className="search-books-bar">
-                <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+                <button className="close-search" onClick={ () => history.push("/") }>Close</button>
                 <div className="search-books-input-wrapper">
                   <input type="text" placeholder="Search by title or author"/>
                 </div>
