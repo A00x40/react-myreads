@@ -8,9 +8,11 @@ import {
 import MyReads from '../components/Main/MyReads'
 import Search from '../components/Search/Search'
 
-const Routes = () => (
+const Routes = (props) => (
     <Router>
-        <Route exact path="/main" component={MyReads} />
+        <Route exact path="/main" render={() => ( 
+            <MyReads state={props.state} />
+        )} />
         <Route exact path="/" >
             <Redirect to="/main" />
         </Route>
