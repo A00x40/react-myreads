@@ -1,5 +1,6 @@
 import React , { useState , useEffect } from 'react'
 import {  useHistory  } from 'react-router-dom'
+import nothumbnail from '../../icons/nothumbnail.jpg'
 
 /*
 NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -64,12 +65,17 @@ export default function Search(props) {
 
                             for( let author in Book['authors'] )
                                 authors += author + " ";
+
+                            let Img = '';
+                            if(!Book.imageLinks) Img = `url(${nothumbnail})`;
+                            else
+                                Img = `url(${Book.imageLinks.thumbnail})`;
                             
                             return (
                                 <li key={Book.id}>
                                     <div className="book">
                                         <div className="book-top">
-                                            <div className="book-cover" style={{ width : 128 , height : 192 , backgroundImage : `url(${Book.imageLinks.thumbnail})` }}></div>
+                                            <div className="book-cover" style={{ width : 128 , height : 192 , backgroundImage : Img }}></div>
                                             <div className="book-shelf-changer">
                                                 <select onChange={ (e) => moveBook( Book , e.target.value )}>
                                                     <option value="move" disabled>Move to...</option>
