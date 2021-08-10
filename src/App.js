@@ -19,21 +19,39 @@ class BooksApp extends Component {
                 Books 
             }) );
         } )
-
     }
 
-    moveBook( id , ToShelf ) {
-        BooksAPI.get(id).then( Book => {
-            BooksAPI.update( Book , ToShelf ).then(() => {
-                window.location.reload();
-            } );
-        });
+    componentDidUpdate() {
+        BooksAPI.getAll().then( Books => {
+            this.setState( () => ({
+                Books 
+            }) );
+        } )
+    }
+
+    /**
+     * 
+     * @param Book    : The Selected Book
+     * @param ToShelf : Shelf To move the book ( currentlyReading , wantingToRead , read , none )
+     */
+    moveBook( Book , ToShelf ) {
+        
+        let BookIndex = this.state.Books.findIndex( b => b.id === Book.id );
+        
+
+        if( BookIndex === -1 ) {
+            if( !Book.shelf ) {
+                Book.shelf = ToShelf;
+            }
+        }
+
+        BooksAPI.update( Book , ToShelf );
     }
 
     render() {
         return (
             <div className="app">
-                <Routes state={this.state} moveBook={ (id , ToShelf) => this.moveBook(id , ToShelf)} />
+                <Routes state={this.state} moveBook={ (id , ToShelf) => this.moveBook(id , ToShelf)} search={BooksAPI.search} />
             </div>
         )
     }

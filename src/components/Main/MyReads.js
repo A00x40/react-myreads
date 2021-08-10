@@ -11,6 +11,9 @@ export default function MyReads(props) {
 
     let history = useHistory();
     
+    /**
+     *  Watch For changes in App state to change displayed books
+     */
     useEffect(() => {
         setstate( () => ({
             Books : props.state.Books
@@ -31,19 +34,19 @@ export default function MyReads(props) {
                     <ol className="books-grid">
                     {
                         state.Books.map( (Book) => {
-                            var authors = "";
+                            let authors = "";
                             for( let author of Book.authors )
                                 authors += author + " ";
                             return (
                                 Book.shelf === "currentlyReading" &&
-                                <li key={Book.title}>
+                                <li key={Book.id}>
                                     <div className="book">
                                         <div className="book-top">
                                             <div className="book-cover" style={{ width : 128 , height : 192 , backgroundImage : `url(${Book.imageLinks.thumbnail})` }}></div>
                                             <div className="book-shelf-changer">
-                                                <select onChange={ (e) => moveBook( Book.id , e.target.value )}>
+                                                <select onChange={ (e) => moveBook( Book , e.target.value )}>
                                                     <option value="move" disabled>Move to...</option>
-                                                    <option value="currentlyReading" >Currently Reading</option>
+                                                    <option value="currentlyReading" hidden>Currently Reading</option>
                                                     <option value="wantToRead" >Want to Read</option>
                                                     <option value="read" >Read</option>
                                                     <option value="none">None</option>
@@ -67,20 +70,20 @@ export default function MyReads(props) {
                     <ol className="books-grid">
                     {
                         state.Books.map( (Book) => {
-                            var authors = "";
+                            let authors = "";
                             for( let author of Book.authors )
                                 authors += author + " ";
                             
                             return (
                                 Book.shelf === "wantToRead" &&
-                                <li key={Book.title}>
+                                <li key={Book.id}>
                                     <div className="book">
                                         <div className="book-top">
                                             <div className="book-cover" style={{ width : 128 , height : 192 , backgroundImage : `url(${Book.imageLinks.thumbnail})` }}></div>
                                             <div className="book-shelf-changer">
-                                                <select onChange={ (e) => moveBook( Book.id , e.target.value )}>
+                                                <select onChange={ (e) => moveBook( Book , e.target.value )}>
                                                     <option value="move" disabled>Move to...</option>
-                                                    <option value="wantToRead">Want to Read</option>
+                                                    <option value="wantToRead" hidden>Want to Read</option>
                                                     <option value="currentlyReading">Currently Reading</option>
                                                     <option value="read">Read</option>
                                                     <option value="none">None</option>
@@ -105,20 +108,20 @@ export default function MyReads(props) {
     
                     {
                         state.Books.map( (Book) => {
-                            var authors = "";
+                            let authors = "";
                             for( let author of Book.authors )
                                 authors += author + " ";
                             
                             return (
                                 Book.shelf === "read" &&
-                                <li key={Book.title}>
+                                <li key={Book.id}>
                                     <div className="book">
                                         <div className="book-top">
                                             <div className="book-cover" style={{ width : 128 , height : 192 , backgroundImage : `url(${Book.imageLinks.thumbnail})` }}></div>
                                             <div className="book-shelf-changer">
-                                                <select onChange={ (e) => moveBook( Book.id , e.target.value )}>
+                                                <select onChange={ (e) => moveBook( Book , e.target.value )}>
                                                     <option value="move" disabled>Move to...</option>
-                                                    <option value="read">Read</option>
+                                                    <option value="read" hidden>Read</option>
                                                     <option value="currentlyReading">Currently Reading</option>
                                                     <option value="wantToRead">Want to Read</option>
                                                     <option value="none">None</option>
