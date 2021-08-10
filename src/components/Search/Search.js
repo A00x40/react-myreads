@@ -18,7 +18,7 @@ export default function Search(props) {
 
     const [state, setstate] = useState( {
         booksSearched : [] , 
-        Books : []
+        books : []
     });
 
     let history = useHistory();
@@ -26,18 +26,18 @@ export default function Search(props) {
     useEffect(() => {
         setstate( (prevState) => ({
             booksSearched : prevState.booksSearched ,
-            Books : props.Books
+            books : props.books
         }));
         
     } , [props.state] );
 
     const handleChange = (e) => {
 
-        search(e.target.value).then( Books => {
+        search(e.target.value).then( books => {
 
-            if( Books ) {
+            if( books ) {
                 setstate( () => ({
-                    booksSearched : Books
+                    booksSearched : books
                 }) );
             } else {
                 setstate( () => ({

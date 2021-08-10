@@ -11,7 +11,15 @@ body, .app {
 }
 
 /* main page */
-
+.scroll-top {
+  width: 140px;
+  height: 50px;
+  font-size: 20px;
+}
+.scroll-top:hover {
+  cursor: pointer;
+  background-color: aqua;
+}
 .list-books-title {
   padding: 10px 0;
   background: #2e7c31;

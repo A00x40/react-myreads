@@ -1,12 +1,14 @@
 import React , { useState , useEffect } from 'react'
 import {  useHistory  } from 'react-router-dom'
+import BookData from './BookData'
+import NavBar from '../Nav/NavBar'
 
 export default function MyReads(props) {
 
     const moveBook = props.moveBook;
 
     const [state, setstate] = useState( {
-        Books : []
+        books : []
     });
 
     let history = useHistory();
@@ -16,47 +18,34 @@ export default function MyReads(props) {
      */
     useEffect(() => {
         setstate( () => ({
-            Books : props.state.Books
+            books : props.state.books
         }));
         
-    } , [props.state] );
+    } , [props.state.books] );
+
+    const scrollToSection = (e) => {
+        let sec = document.getElementsByClassName(e.target.value)[0];
+        sec.scrollIntoView({behavior: "smooth"});
+    }
 
     return (
         <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
+
+            <NavBar scroll={ (e) => scrollToSection(e) } />
+
             <div className="list-books-content">
             <div>
                 <div className="bookshelf">
-                <h2 className="bookshelf-title">Currently Reading</h2>
+                <h2 className="bookshelf-title sec1">Currently Reading</h2>
                     <div className="bookshelf-books">
                     <ol className="books-grid">
                     {
-                        state.Books.map( (Book) => {
-                            let authors = "";
-                            for( let author of Book.authors )
-                                authors += author + " ";
+                        state.books.map( (book) => {
                             return (
-                                Book.shelf === "currentlyReading" &&
-                                <li key={Book.id}>
-                                    <div className="book">
-                                        <div className="book-top">
-                                            <div className="book-cover" style={{ width : 128 , height : 192 , backgroundImage : `url(${Book.imageLinks.thumbnail})` }}></div>
-                                            <div className="book-shelf-changer">
-                                                <select onChange={ (e) => moveBook( Book , e.target.value )}>
-                                                    <option value="move" disabled>Move to...</option>
-                                                    <option value="currentlyReading" hidden>Currently Reading</option>
-                                                    <option value="wantToRead" >Want to Read</option>
-                                                    <option value="read" >Read</option>
-                                                    <option value="none">None</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="book-title"> { Book.title } </div>
-                                        <div className="book-authors"> { authors } </div>
-                                    </div>
-                                </li> 
+                                book.shelf === "currentlyReading" && <BookData key={book.id} book={book} moveBook={moveBook}  />
                             )
                         })
                     }
@@ -65,76 +54,33 @@ export default function MyReads(props) {
                 </div>
 
                 <div className="bookshelf">
-                <h2 className="bookshelf-title">Want to Read</h2>
+                <h2 className="bookshelf-title sec2">Want to Read</h2>
+                    <button value="sec0" className="scroll-top" onClick={ (e) => {scrollToSection(e)} }>Top</button>
                     <div className="bookshelf-books">
                     <ol className="books-grid">
                     {
-                        state.Books.map( (Book) => {
-                            let authors = "";
-                            for( let author of Book.authors )
-                                authors += author + " ";
-                            
+                        state.books.map( (book) => {
                             return (
-                                Book.shelf === "wantToRead" &&
-                                <li key={Book.id}>
-                                    <div className="book">
-                                        <div className="book-top">
-                                            <div className="book-cover" style={{ width : 128 , height : 192 , backgroundImage : `url(${Book.imageLinks.thumbnail})` }}></div>
-                                            <div className="book-shelf-changer">
-                                                <select onChange={ (e) => moveBook( Book , e.target.value )}>
-                                                    <option value="move" disabled>Move to...</option>
-                                                    <option value="wantToRead" hidden>Want to Read</option>
-                                                    <option value="currentlyReading">Currently Reading</option>
-                                                    <option value="read">Read</option>
-                                                    <option value="none">None</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="book-title"> { Book.title } </div>
-                                        <div className="book-authors"> { authors } </div>
-                                    </div>
-                                </li>
+                                book.shelf === "wantToRead" && <BookData key={book.id} book={book} moveBook={moveBook} />
                             )
                         })
-                    }  
+                    }
                     </ol>
                     </div>
                 </div>
 
                 <div className="bookshelf">
-                <h2 className="bookshelf-title">Read</h2>
+                <h2 className="bookshelf-title sec3">Read</h2>
+                    <button value="sec0" className="scroll-top" onClick={ (e) => {scrollToSection(e)} }>Top</button>
                     <div className="bookshelf-books">
                     <ol className="books-grid">
-    
                     {
-                        state.Books.map( (Book) => {
-                            let authors = "";
-                            for( let author of Book.authors )
-                                authors += author + " ";
-                            
+                        state.books.map( (book) => {
                             return (
-                                Book.shelf === "read" &&
-                                <li key={Book.id}>
-                                    <div className="book">
-                                        <div className="book-top">
-                                            <div className="book-cover" style={{ width : 128 , height : 192 , backgroundImage : `url(${Book.imageLinks.thumbnail})` }}></div>
-                                            <div className="book-shelf-changer">
-                                                <select onChange={ (e) => moveBook( Book , e.target.value )}>
-                                                    <option value="move" disabled>Move to...</option>
-                                                    <option value="read" hidden>Read</option>
-                                                    <option value="currentlyReading">Currently Reading</option>
-                                                    <option value="wantToRead">Want to Read</option>
-                                                    <option value="none">None</option>
-                                                </select>
-                                            </div>
-                                            </div>
-                                        <div className="book-title"> { Book.title } </div>
-                                        <div className="book-authors"> { authors } </div>
-                                    </div>
-                                </li>
+                                book.shelf === "read" && <BookData key={book.id} book={book} moveBook={moveBook} />
                             )
                         })
-                    }  
+                    }
                     </ol>
                     </div>
                 </div>

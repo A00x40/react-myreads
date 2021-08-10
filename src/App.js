@@ -7,51 +7,39 @@ class BooksApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Books : [
+            books : [
                 
             ] 
         }
     }
 
     componentDidMount() {
-        BooksAPI.getAll().then( Books => {
+        BooksAPI.getAll().then( books => {
             this.setState( () => ({
-                Books 
-            }) );
-        } )
-    }
-
-    componentDidUpdate() {
-        BooksAPI.getAll().then( Books => {
-            this.setState( () => ({
-                Books 
+                books 
             }) );
         } )
     }
 
     /**
      * 
-     * @param Book    : The Selected Book
-     * @param ToShelf : Shelf To move the book ( currentlyReading , wantingToRead , read , none )
+     * @param book    : The Selected book
+     * @param toShelf : Shelf To move the book ( currentlyReading , wantingToRead , read , none )
      */
-    moveBook( Book , ToShelf ) {
-        
-        let BookIndex = this.state.Books.findIndex( b => b.id === Book.id );
-        
+    moveBook( book , toShelf ) {
 
-        if( BookIndex === -1 ) {
-            if( !Book.shelf ) {
-                Book.shelf = ToShelf;
-            }
-        }
-
-        BooksAPI.update( Book , ToShelf );
+        BooksAPI.update( book , toShelf ).then( () => {
+            book.shelf = toShelf;
+            this.setState( (prevState) => ({
+                books: prevState.books.filter(b => b.id !== book.id).concat([ book ])
+            }))
+        })
     }
 
     render() {
         return (
             <div className="app">
-                <Routes state={this.state} moveBook={ (id , ToShelf) => this.moveBook(id , ToShelf)} search={BooksAPI.search} />
+                <Routes state={this.state} moveBook={ (id , toShelf) => this.moveBook(id , toShelf)} search={BooksAPI.search} />
             </div>
         )
     }

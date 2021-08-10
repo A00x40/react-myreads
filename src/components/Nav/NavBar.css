@@ -1,0 +1,45 @@
+/* NavBar */
+
+.navbar-menu {
+    margin: 20px 0px 0px ;
+}
+
+.navbar-list {    
+    align-items: center;
+    align-self: center;
+    display: block;
+    margin: 0 auto;
+}
+
+ul {
+    
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #0baaff;
+    height: 70px;
+}
+
+li {
+    float: left;
+    height: 100%;
+}
+      
+
+li button {
+    display: block;
+    background-color: #0baaff;
+    color: aliceblue;
+    text-align: center;
+    padding: 10px ;
+    text-decoration: none;
+    font-size: 27px;
+    height: 100%;
+    border: none;
+}
+
+li button:hover {
+    cursor: pointer;
+    background-color: aqua;
+}
